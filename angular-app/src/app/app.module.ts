@@ -14,9 +14,15 @@ import {
   InMemoryDbService,
 } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './in-memory-data.service';
+import { HeaderComponent } from './header/header.component';
+import { MenuComponent } from './menu/menu.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { AppRoutingModule } from './app-routing.module';
+import { UserListComponent } from './user/user-list/user-list.component';
+import { UserEditComponent } from './user/user-edit/user-edit.component';
 
 @NgModule({
-  declarations: [AppComponent, AboutComponent, declarations],
+  declarations: [AppComponent, AboutComponent, declarations, HeaderComponent, MenuComponent, DashboardComponent, UserListComponent, UserEditComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -28,6 +34,7 @@ import { InMemoryDataService } from './in-memory-data.service';
       delay: 300,
       passThruUnknownUrl: true,
     }),
+    AppRoutingModule,
   ],
   providers: [{ provide: InMemoryDataService, useExisting: InMemoryDbService }],
   bootstrap: [AppComponent],
