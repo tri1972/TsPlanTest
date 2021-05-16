@@ -18,6 +18,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { TsCalcContainerCaseJudge } from '../model/tsCalcContainerCaseJudge';
+import { TsCalcContainerSpiceList } from '../model/tsCalcContainerSpiceList';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -56,7 +57,7 @@ export class TsService {
 
 
     /**
-     * 
+     * 自然空冷可否判断の計算を行います
      * 
      * @param body 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -99,6 +100,60 @@ export class TsService {
         }
 
         return this.httpClient.request<TsCalcContainerCaseJudge>('post',`${this.basePath}/api/Ts`,
+            {
+                body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * LTSpiceより出力される、SpiceNetlistより熱計算を行います
+     * SpiceNetListの値については    値の一行目に配置されているファイルパスに注意してください。    パスの区切りとなるバックスラッシュについては、ファイルパスの行を削除するか、\&quot;＼＼\&quot;と二回重ねるよう  修正してください
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiTsSpiceNetListPost(body?: TsCalcContainerSpiceList, observe?: 'body', reportProgress?: boolean): Observable<TsCalcContainerSpiceList>;
+    public apiTsSpiceNetListPost(body?: TsCalcContainerSpiceList, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TsCalcContainerSpiceList>>;
+    public apiTsSpiceNetListPost(body?: TsCalcContainerSpiceList, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TsCalcContainerSpiceList>>;
+    public apiTsSpiceNetListPost(body?: TsCalcContainerSpiceList, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+        let headers = this.defaultHeaders;
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKeys && this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'text/plain',
+            'application/json',
+            'text/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json-patch+json',
+            'application/json',
+            'text/json',
+            'application/_*+json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.request<TsCalcContainerSpiceList>('post',`${this.basePath}/api/Ts/SpiceNetList`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
