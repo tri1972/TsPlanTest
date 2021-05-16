@@ -1,0 +1,15 @@
+参考Url
+https://www.tohoho-web.com/ex/angular.html
+
+Angularのテストモジュール実行
+$ ng new <モジュール名>
+? Would you like to add Angular routing? (y/N) y
+? Which stylesheet format would you like to use? CSS	# カーソル移動キーで選択してEnter
+
+Angularのサーバー起動
+$ cd my-app
+$ ng serve --host 0.0.0.0 --port 8080
+
+コンポーネントの追加
+$ ng generate component <コンポーネント名>
+
