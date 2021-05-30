@@ -1,7 +1,7 @@
-参考Url
+・参考Url
 https://www.tohoho-web.com/ex/angular.html
 
-Angularのテストモジュール実行
+・Angularのテストモジュール生成
 $ ng new <モジュール名>
 ? Would you like to add Angular routing? (y/N) y
 ? Which stylesheet format would you like to use? CSS	# カーソル移動キーで選択してEnter
@@ -10,6 +10,22 @@ Angularのサーバー起動
 $ cd my-app
 $ ng serve --host 0.0.0.0 --port 8080
 
+Angularのデバッガ実行
+デバッガの設定は
+lanunch.jsonで設定している
+
+$ cd my-app
+$ ng serve --host 0.0.0.0 --port 4200
+を実行しておく
+
+デバッガの自動実行（F5を押すと始まる）
+については以下のページを参照
+https://qiita.com/amay077/items/62e1eb656fbd730b3dd1
+
 コンポーネントの追加
 $ ng generate component <コンポーネント名>
+
+chromeでlocalhostにアクセスできない場合
+参考url　https://qiita.com/hiraski/items/a399e5bb303124ff4cab
+
 

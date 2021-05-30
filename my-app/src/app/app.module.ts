@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { ConfirmDialogComponent } from './tools/confirm-dialog/confirm-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     FormsModule,
     MatDialogModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    // Include it under 'imports' in your application module
+    // after BrowserModule.
+    HttpClientModule,
   ],
   providers: [
     UserService
