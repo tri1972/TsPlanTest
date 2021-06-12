@@ -1,8 +1,10 @@
 //"use strict";
 //import { HttpClient, HttpHandler, HttpHeaders, JsonpClientBackend } from '@angular/common/http';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { ComponentFixtureNoNgZone } from '@angular/core/testing';
+//import { gunzip } from 'zlib';
 import { AccountService, Configuration, RegisterAccount } from '../tsplanApi';
 
 @Component({
@@ -46,6 +48,7 @@ export class DashboardComponent  {
     var observe: 'body'="body"; 
     /*
     getData('https://tsplanning.azurewebsites.net/api/Values').then(function(response) {
+      //return response;
       return response.json();
     }).then(function(json) {
       // jsonにJSONオブジェクトで結果が渡される
@@ -55,8 +58,9 @@ export class DashboardComponent  {
     //http://localhost:54248/api/Values
     //https://tsplanning.azurewebsites.net/api/Values
 
-   
-    postData('https://tsplanning.azurewebsites.net/api/Account',{
+    //optionData('https://tsplanning.azurewebsites.net/api/Account');
+    
+    postData('http://localhost:54248/api/Account',{
       "password": 'pxi13351',
       "userName": 'sakaitri@gmail.com'})
     .then(data=>{
@@ -79,30 +83,85 @@ export class DashboardComponent  {
 
   }
 }
-
+//Optionメソッド
+async function optionData(url = '') 
+{
+  try{
+    await fetch(url, {
+      method: 'OPTION', 
+      headers: {
+        'Origin': 'https://localhost:4040',
+        'Access-Control-Request-Method': 'POST',
+        'Access-Control-Request-Headers': 'Content-Type,application/json-patch+json'
+      },
+    }).then(res=>{
+    });
+  }catch(err){
+    console.log(err);
+  }
+}
 // POST メソッドの実装の例
 async function postData(url = '', data = {
 }) 
 {
-  try{
+try{
   // 既定のオプションには * が付いています
   const response = await fetch(url, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, *same-origin, omit
-    headers: {
-      'accept':'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded',
+    //credentials: 'same-origin', // include, *same-origin, omit
+    headers: 
+    {
+      'accept':'*/*',
+      'Accept-Encoding':'gzip, deflate, br',
+      'Accept-Language':'ja,en-US;q=0.7,en;q=0.3',
+      'Connection':'keep-alive',
+      'Content-Length':'55',
+      'Content-Type':'application/json-patch+json',
+      'Access-Control-Allow-Origin': 'http://localhost:54248'
+      //'Content-Type': 'application/x-www-form-urlencoded',
       //'Content-Type': 'application/json-patch+json',
       //'Content-Type': 'application/json'
     },
+
     //redirect: 'follow', // manual, *follow, error
     //referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify(data) // 本文のデータ型は "Content-Type" ヘッダーと一致する必要があります
+  /*
   }).then(res=>{
-    return res;
-  })
+    return res.json;
+  })*/
+  
+  }).then(async response=>{ 
+    // 結果を数えるための変数
+    let count = 0;
+    // response.body にレスポンス本文のストリーム（ReadableStream）が入っている
+    // ストリームのReaderを作成
+    const reader = response.body.getReader();
+    while (true) {
+      // ストリームからデータを読む
+      const {done, value} = await reader.read();
+      if (done) {
+        // doneがtrueならストリームのデータを全部読み終わった
+        var datastr=  value.toString;
+        break;
+      }
+    }
+    /*
+      // 読んだデータはバイナリデータ（Uint8Array）で与えられる
+      for (const char of value) {
+        // 文字'<' (0x3c) を見つけたらカウント
+        if (char === 0x3c) {
+          count++;
+        }
+      }
+    */
+    
+  return datastr;
+  
+ return response.json;
+  });
 }catch(err){
   console.log(err);
 }
