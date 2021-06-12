@@ -66,21 +66,6 @@ export class DashboardComponent  {
     .then(data=>{
       console.log(data);
     });
-    
-    /*
-    try{
-        var api=new AccountService(this.http,null,config);
-        return api.apiAccountPost(test,observe,false);
-      
-    console.log;
-
-    }
-    catch(error)
-    {
-      console.error();
-      
-    }*/
-
   }
 }
 //Optionメソッド
@@ -105,6 +90,9 @@ async function postData(url = '', data = {
 }) 
 {
 try{
+  
+  charsReceived:Number;
+  stringData:String;
   // 既定のオプションには * が付いています
   const response = await fetch(url, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -127,41 +115,34 @@ try{
 
     //redirect: 'follow', // manual, *follow, error
     //referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: JSON.stringify(data) // 本文のデータ型は "Content-Type" ヘッダーと一致する必要があります
-  /*
-  }).then(res=>{
-    return res.json;
-  })*/
-  
-  }).then(async response=>{ 
-    // 結果を数えるための変数
-    let count = 0;
-    // response.body にレスポンス本文のストリーム（ReadableStream）が入っている
-    // ストリームのReaderを作成
-    const reader = response.body.getReader();
-    while (true) {
-      // ストリームからデータを読む
-      const {done, value} = await reader.read();
-      if (done) {
-        // doneがtrueならストリームのデータを全部読み終わった
-        var datastr=  value.toString;
-        break;
-      }
-    }
+    body: JSON.stringify(data) // 本文のデータ型は "Content-Type" ヘッダーと一致する必要があります 
+  })
+  .then(response => response.body.getReader())
+  .then((reader=>{
     /*
-      // 読んだデータはバイナリデータ（Uint8Array）で与えられる
-      for (const char of value) {
-        // 文字'<' (0x3c) を見つけたらカウント
-        if (char === 0x3c) {
-          count++;
-        }
-      }
+    参考url：https://sbfl.net/blog/2018/05/26/javascript-streams-api/
     */
+    let veryLongText = ''; // 細切れの値をここに結合していく。
+    const decoder = new TextDecoder();// ReadableStream.read()はPromiseを返す。
+    // Promiseは{ done, value }として解決される。
+    // データを読み込んだとき：doneはfalse, valueは値。
+    // データを読み込み終わったとき：doneはtrue, valueはundefined。
+    function readChunk({done, value}) {
+      if(done) {
+        // 読み込みが終わっていれば最終的なテキストを表示する。
+        console.log(veryLongText);
+        return veryLongText;
+      }
+
+      veryLongText += decoder.decode(value);
+
+      // 次の値を読みにいく。
+      reader.read().then(readChunk);
+    }
     
-  return datastr;
-  
- return response.json;
-  });
+    // 最初の値を読み込む。
+    reader.read().then(readChunk);
+  }))
 }catch(err){
   console.log(err);
 }
