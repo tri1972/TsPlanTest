@@ -1,9 +1,12 @@
 //"use strict";
 //import { HttpClient, HttpHandler, HttpHeaders, JsonpClientBackend } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { ComponentFixtureNoNgZone } from '@angular/core/testing';
+import { rejects } from 'assert';
+import { promise } from 'protractor';
 //import { gunzip } from 'zlib';
 import { AccountService, Configuration, RegisterAccount } from '../tsplanApi';
 
@@ -68,23 +71,6 @@ export class DashboardComponent  {
     });
   }
 }
-//Optionメソッド
-async function optionData(url = '') 
-{
-  try{
-    await fetch(url, {
-      method: 'OPTION', 
-      headers: {
-        'Origin': 'https://localhost:4040',
-        'Access-Control-Request-Method': 'POST',
-        'Access-Control-Request-Headers': 'Content-Type,application/json-patch+json'
-      },
-    }).then(res=>{
-    });
-  }catch(err){
-    console.log(err);
-  }
-}
 // POST メソッドの実装の例
 async function postData(url = '', data = {
 }) 
@@ -94,7 +80,7 @@ try{
   charsReceived:Number;
   stringData:String;
   // 既定のオプションには * が付いています
-  const response = await fetch(url, {
+  return await fetch(url, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -118,34 +104,106 @@ try{
     body: JSON.stringify(data) // 本文のデータ型は "Content-Type" ヘッダーと一致する必要があります 
   })
   .then(response => response.body.getReader())
-  .then((reader=>{
+  .then(async (reader)=>{
     /*
     参考url：https://sbfl.net/blog/2018/05/26/javascript-streams-api/
     */
     let veryLongText = ''; // 細切れの値をここに結合していく。
     const decoder = new TextDecoder();// ReadableStream.read()はPromiseを返す。
+
     // Promiseは{ done, value }として解決される。
     // データを読み込んだとき：doneはfalse, valueは値。
     // データを読み込み終わったとき：doneはtrue, valueはundefined。
-    function readChunk({done, value}) {
+    function readChunk({done, value}):string{
       if(done) {
         // 読み込みが終わっていれば最終的なテキストを表示する。
-        console.log(veryLongText);
+        //console.log(veryLongText);
         return veryLongText;
       }
-
       veryLongText += decoder.decode(value);
-
       // 次の値を読みにいく。
       reader.read().then(readChunk);
     }
     
+    function readChunk2({done, value}){
+      if(done) {
+        // 読み込みが終わっていれば最終的なテキストを表示する。
+        //console.log(veryLongText);
+        let promise =new Promise<string>((resolve,reject)=>{
+          if(veryLongText!=undefined){
+            resolve('ok');
+          }else{
+            reject('cant catch data!');
+          }
+        });
+        return promise;
+      }
+      veryLongText += decoder.decode(value);
+      // 次の値を読みにいく。
+      reader.read().then(readChunk2);
+    }
+
+    var ret= reader.read().then(({done,value})=>
+    {
+      readChunk2({done,value}).then((ret)=>{
+        console.log(ret);
+        return new Promise<string>((resolve, reject) => {
+          // resolve / reject 関数がPromiseの運命を決定します
+          if(ret!=undefined)
+          {
+            resolve(veryLongText);
+          }
+          else
+          {
+            reject('error');
+          }
+        })
+      });
+    });
+  });
+    /*
+        function readChunk({done, value}):Promise<string> {
+      if(done) {
+        // 読み込みが終わっていれば最終的なテキストを表示する。
+        //console.log(veryLongText);
+        return new Promise<string>((resolve,reject)=>{
+          if(veryLongText!=undefined)
+          {
+            resolve(veryLongText);
+          }
+          else
+          {
+            reject("error!")
+          }
+        }) ;
+      }
+      veryLongText += decoder.decode(value);
+      // 次の値を読みにいく。
+      reader.read().then(readChunk);
+    }
     // 最初の値を読み込む。
-    reader.read().then(readChunk);
-  }))
-}catch(err){
-  console.log(err);
-}
+    reader.read()
+      .then(readChunk)
+    
+      .then(ret=>{
+        console.log(ret);
+        return new Promise<string>((resolve, reject) => {
+          // resolve / reject 関数がPromiseの運命を決定します
+          if(ret!=undefined)
+          {
+            resolve(veryLongText);
+          }
+          else
+          {
+            reject('error');
+          }
+        });
+      });
+    }))
+    */
+  }catch(err){
+    console.log(err);
+  }
   //return response.json(); // レスポンスの JSON を解析
 }
 
