@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
-import { ComponentFixtureNoNgZone } from '@angular/core/testing';
+import { ComponentFixtureNoNgZone, waitForAsync } from '@angular/core/testing';
 import { rejects } from 'assert';
 import { promise } from 'protractor';
 //import { gunzip } from 'zlib';
@@ -20,7 +20,7 @@ import { AccountService, Configuration, RegisterAccount } from '../tsplanApi';
 export class DashboardComponent  {
   message: string;
   testdata:string="testtest";
-
+  
   /*
   private httpOptions: any = {
     // ヘッダ情報
@@ -39,8 +39,9 @@ export class DashboardComponent  {
   // 変数resultを初期化
   result = '現在時刻は不明です。';
 
+  str:string;
   // ボタンクリック時に現在時刻を表示
-  onclick() {
+  async onclick() {
     this.result = `現在時刻は、${new Date().toLocaleTimeString()}です。`;
     
     var config=new Configuration();
@@ -62,25 +63,25 @@ export class DashboardComponent  {
     //https://tsplanning.azurewebsites.net/api/Values
 
     //optionData('https://tsplanning.azurewebsites.net/api/Account');
-    
-    postData('http://localhost:54248/api/Account',{
+    await postData('http://localhost:54248/api/Account',{
       "password": 'pxi13351',
       "userName": 'sakaitri@gmail.com'})
     .then(data=>{
-      console.log(data);
+      this.str=data;
     });
+    console.log(this.str);
+
   }
 }
 // POST メソッドの実装の例
-async function postData(url = '', data = {
+function postData(url = '', data = {
 }) 
 {
 try{
-  
   charsReceived:Number;
   stringData:String;
   // 既定のオプションには * が付いています
-  return await fetch(url, {
+  return fetch(url, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -110,7 +111,7 @@ try{
     */
     let veryLongText = ''; // 細切れの値をここに結合していく。
     const decoder = new TextDecoder();// ReadableStream.read()はPromiseを返す。
-
+/*
     // Promiseは{ done, value }として解決される。
     // データを読み込んだとき：doneはfalse, valueは値。
     // データを読み込み終わったとき：doneはtrue, valueはundefined。
@@ -125,11 +126,28 @@ try{
       reader.read().then(readChunk);
     }
     
-    function readChunk2({done, value}){
+
+    var ret= await reader.read().then(({done,value})=>
+    {
+      readChunk({done,value});
+    });
+
+    return new Promise<string>((resolve,reject)=>{
+      if(veryLongText!=undefined){
+        resolve(veryLongText);
+      }else{
+        reject('cant catch data!');
+      }
+    })
+    */
+   
+  const wait = async (ms) => new Promise(resolve => setTimeout(resolve, ms));
+    async function readChunk2({done, value}){
       if(done) {
         // 読み込みが終わっていれば最終的なテキストを表示する。
         //console.log(veryLongText);
-        let promise =new Promise<string>((resolve,reject)=>{
+        
+        let promise = new Promise<string>((resolve,reject)=>{
           if(veryLongText!=undefined){
             resolve('ok');
           }else{
@@ -139,28 +157,32 @@ try{
         return promise;
       }
       veryLongText += decoder.decode(value);
+      //await wait(5000);
       // 次の値を読みにいく。
-      reader.read().then(readChunk2);
+      reader.read().then(await readChunk2);
     }
-
-    var ret= reader.read().then(({done,value})=>
+    
+    await reader.read().then(async function ({done,value})
     {
-      readChunk2({done,value}).then((ret)=>{
-        console.log(ret);
-        return new Promise<string>((resolve, reject) => {
-          // resolve / reject 関数がPromiseの運命を決定します
-          if(ret!=undefined)
-          {
-            resolve(veryLongText);
-          }
-          else
-          {
-            reject('error');
-          }
-        })
-      });
+      await readChunk2({done,value});
     });
+    
+    /*
+    await reader.read().then(({done,value})=>
+    {
+      readChunk2({done,value});
+    });
+    */
+    return await new Promise<string>((resolve,reject)=>{
+      if(veryLongText!=undefined){
+        resolve(veryLongText);
+      }else{
+        reject('cant catch data!');
+      }
+    })
+    
   });
+
     /*
         function readChunk({done, value}):Promise<string> {
       if(done) {
