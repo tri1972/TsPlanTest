@@ -48,7 +48,6 @@ export class DashboardComponent  {
     config.username="sakaitri@gmail.com";
     config.password="pxi13351";
 
-   var test =new RegisterAccountTsPlan(); 
     var observe: 'body'="body"; 
     /*
     getData('https://tsplanning.azurewebsites.net/api/Values').then(function(response) {
@@ -60,14 +59,14 @@ export class DashboardComponent  {
     });
     */
     //http://localhost:54248/api/Values
-    //https://tsplanning.azurewebsites.net/api/Values
-
-    //optionData('https://tsplanning.azurewebsites.net/api/Account');
+    //https://tsplanning.azurewebsites.net/api/Values    
     await postData('http://localhost:54248/api/Account',{
       "password": 'pxi13351',
       "userName": 'sakaitri@gmail.com'})
     .then(data=>{
       this.str=data;
+      var jsonObj = JSON.parse(data);
+      jsonObj
     });
     console.log(this.str);
 
@@ -111,37 +110,7 @@ try{
     */
     let veryLongText = ''; // 細切れの値をここに結合していく。
     const decoder = new TextDecoder();// ReadableStream.read()はPromiseを返す。
-/*
-    // Promiseは{ done, value }として解決される。
-    // データを読み込んだとき：doneはfalse, valueは値。
-    // データを読み込み終わったとき：doneはtrue, valueはundefined。
-    function readChunk({done, value}):string{
-      if(done) {
-        // 読み込みが終わっていれば最終的なテキストを表示する。
-        //console.log(veryLongText);
-        return veryLongText;
-      }
-      veryLongText += decoder.decode(value);
-      // 次の値を読みにいく。
-      reader.read().then(readChunk);
-    }
-    
-
-    var ret= await reader.read().then(({done,value})=>
-    {
-      readChunk({done,value});
-    });
-
-    return new Promise<string>((resolve,reject)=>{
-      if(veryLongText!=undefined){
-        resolve(veryLongText);
-      }else{
-        reject('cant catch data!');
-      }
-    })
-    */
-   
-  const wait = async (ms) => new Promise(resolve => setTimeout(resolve, ms));
+    const wait = async (ms) => new Promise(resolve => setTimeout(resolve, ms));
     async function readChunk2({done, value}){
       if(done) {
         // 読み込みが終わっていれば最終的なテキストを表示する。
@@ -166,13 +135,6 @@ try{
     {
       await readChunk2({done,value});
     });
-    
-    /*
-    await reader.read().then(({done,value})=>
-    {
-      readChunk2({done,value});
-    });
-    */
     return await new Promise<string>((resolve,reject)=>{
       if(veryLongText!=undefined){
         resolve(veryLongText);
@@ -182,47 +144,6 @@ try{
     })
     
   });
-
-    /*
-        function readChunk({done, value}):Promise<string> {
-      if(done) {
-        // 読み込みが終わっていれば最終的なテキストを表示する。
-        //console.log(veryLongText);
-        return new Promise<string>((resolve,reject)=>{
-          if(veryLongText!=undefined)
-          {
-            resolve(veryLongText);
-          }
-          else
-          {
-            reject("error!")
-          }
-        }) ;
-      }
-      veryLongText += decoder.decode(value);
-      // 次の値を読みにいく。
-      reader.read().then(readChunk);
-    }
-    // 最初の値を読み込む。
-    reader.read()
-      .then(readChunk)
-    
-      .then(ret=>{
-        console.log(ret);
-        return new Promise<string>((resolve, reject) => {
-          // resolve / reject 関数がPromiseの運命を決定します
-          if(ret!=undefined)
-          {
-            resolve(veryLongText);
-          }
-          else
-          {
-            reject('error');
-          }
-        });
-      });
-    }))
-    */
   }catch(err){
     console.log(err);
   }
@@ -243,7 +164,4 @@ async function getData(url = '')
     return res;
   })
   return response; // レスポンスの JSON を解析
-}
-class RegisterAccountTsPlan implements RegisterAccount{
-
 }
