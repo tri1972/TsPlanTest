@@ -9,6 +9,8 @@ import { rejects } from 'assert';
 import { promise } from 'protractor';
 //import { gunzip } from 'zlib';
 import { AccountService, Configuration, RegisterAccount } from '../tsplanApi';
+import accountData from '../../Account.json';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -59,18 +61,21 @@ export class DashboardComponent  {
     });
     */
     //http://localhost:54248/api/Values
-    //https://tsplanning.azurewebsites.net/api/Values    
+    //https://tsplanning.azurewebsites.net/api/Values 
+      var test= accountData.username;
     await postData('http://localhost:54248/api/Account',{
-      "password": 'pxi13351',
-      "userName": 'sakaitri@gmail.com'})
+      "password": accountData.password,
+      "userName": accountData.username})
     .then(data=>{
       this.str=data;
       var jsonObj = JSON.parse(data);
-      jsonObj
+      var strToken= jsonObj.token;
+      var strUserNam=jsonObj.userName;
     });
     console.log(this.str);
-
   }
+
+
 }
 // POST メソッドの実装の例
 function postData(url = '', data = {
