@@ -1,6 +1,6 @@
 //"use strict";
 //import { HttpClient, HttpHandler, HttpHeaders, JsonpClientBackend } from '@angular/common/http';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
@@ -10,30 +10,20 @@ import { promise } from 'protractor';
 //import { gunzip } from 'zlib';
 import { AccountService, Configuration, RegisterAccount } from '../tsplanApi';
 import accountData from '../../Account.json';
-
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 
-
 export class DashboardComponent  {
   message: string;
   testdata:string="testtest";
   
-  /*
-  private httpOptions: any = {
-    // ヘッダ情報
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-    }),
-    // DELETE 実行時に `body` が必要になるケースがあるのでプロパティとして用意しておく
-    // ( ここで用意しなくても追加できるけど... )
-    body: null
-  };
-*/
+  token:string;
+  expiresIn:string;
+  userName:string;
+  
   constructor(private http:HttpClient) 
   { 
     this.message = 'This is a sample of Angular application.';
@@ -46,12 +36,37 @@ export class DashboardComponent  {
   async onclick() {
     this.result = `現在時刻は、${new Date().toLocaleTimeString()}です。`;
     
+    //swaggerApi使用
     var config=new Configuration();
     config.username="sakaitri@gmail.com";
     config.password="pxi13351";
+    config.basePath='https://tsplanning.azurewebsites.net';
+    //config.basePath='http://localhost:54248';
 
-    var observe: 'body'="body"; 
+    try{
+    var body={ password:accountData.password,userName:accountData.username};
+    
+    var data= new AccountService(this.http,null,config);
+    data.apiAccountPost(body,'body',true).subscribe({
+      next(position) {
+        this.token=position.token;
+        this.expiresIn=position.expiresIn;
+        this.userName=position.userName;
+        console.log('Current Position: ', position);
+      },
+      error(msg) {
+        console.log('Error Getting Location: ', msg);
+      }
+    });
+  }catch(err){
+    console.log(err);
+  }
+
+    //http://localhost:54248/api/Values
+    //https://tsplanning.azurewebsites.net/api/Values 
+
     /*
+    //作成したget関数
     getData('https://tsplanning.azurewebsites.net/api/Values').then(function(response) {
       //return response;
       return response.json();
@@ -60,9 +75,9 @@ export class DashboardComponent  {
       console.log(json);
     });
     */
-    //http://localhost:54248/api/Values
-    //https://tsplanning.azurewebsites.net/api/Values 
-      var test= accountData.username;
+
+   /*
+   //作成したpost関数
     await postData('http://localhost:54248/api/Account',{
       "password": accountData.password,
       "userName": accountData.username})
@@ -73,6 +88,7 @@ export class DashboardComponent  {
       var strUserNam=jsonObj.userName;
     });
     console.log(this.str);
+    */
   }
 
 
