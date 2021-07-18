@@ -43,20 +43,22 @@ export class DashboardComponent  {
     var config=new Configuration();
     config.username="sakaitri@gmail.com";
     config.password="pxi13351";
-    config.basePath='https://tsplanning.azurewebsites.net';
-    //config.basePath='http://localhost:54248';
+    //config.basePath='https://tsplanning.azurewebsites.net';
+    config.basePath='http://localhost:54248';
 
     async function callTsPost(httpService: HttpClient ,token:string){
       var configTsPost=new Configuration();
       configTsPost.username="sakaitri@gmail.com";
       configTsPost.password="pxi13351";
-      configTsPost.basePath='https://tsplanning.azurewebsites.net';
+      //configTsPost.basePath='https://tsplanning.azurewebsites.net';
+      configTsPost.basePath='http://localhost:54248';
       configTsPost.accessToken='Bearer '+token;
       configTsPost.apiKeys={"Authorization":'Bearer '+token}
+      //ここのSpiceNetList文字列には改行コード(\n)を入れてはいけない
       var spiceNetList
       =String.raw`* D:\sakai\OneDrive\ドキュメント\LTspiceXVII\lib\sym\SpecialFunctions\CaseSurface.asc
-        XX1 test N001 heatresistancesurfacetooutsideair params: width=0.2 depth=0.3 WindDirection=x PositionSurface=top VelocityWind=0.01 Radiation=0.85 ThermalResistance=0 PositiveNode=test\n
-        XX2 N001 N002 heatresistancesurfacetoinside params: width=0.2 depth=0.3 thick=0.005 thermalConductivity=0.278\n
+        XX1 test N001 heatresistancesurfacetooutsideair params: width=0.2 depth=0.3 WindDirection=x PositionSurface=top VelocityWind=0.01 Radiation=0.85 ThermalResistance=0 PositiveNode=test
+        XX2 N001 N002 heatresistancesurfacetoinside params: width=0.2 depth=0.3 thick=0.005 thermalConductivity=0.278
         R1 N003 N002 0.1
         R2 N003 N002 0.18
         R3 0 N004 0.1
