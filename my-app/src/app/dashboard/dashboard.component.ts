@@ -8,7 +8,7 @@ import { ComponentFixtureNoNgZone, waitForAsync } from '@angular/core/testing';
 import { rejects } from 'assert';
 import { promise } from 'protractor';
 //import { gunzip } from 'zlib';
-import { AccountService, Configuration, RegisterAccount } from '../tsplanApi';
+import { AccountService, Configuration, RegisterAccount, TsService } from '../tsplanApi';
 import accountData from '../../Account.json';
 @Component({
   selector: 'app-dashboard',
@@ -17,25 +17,28 @@ import accountData from '../../Account.json';
 })
 
 export class DashboardComponent  {
+  
+
   message: string;
   testdata:string="testtest";
   
   token:string;
   expiresIn:string;
   userName:string;
-  
+  public httpInstance:HttpClient;
+
   constructor(private http:HttpClient) 
   { 
+    this.httpInstance=http;
     this.message = 'This is a sample of Angular application.';
   }
   // 変数resultを初期化
   result = '現在時刻は不明です。';
-
+  
   str:string;
   // ボタンクリック時に現在時刻を表示
   async onclick() {
     this.result = `現在時刻は、${new Date().toLocaleTimeString()}です。`;
-    
     //swaggerApi使用
     var config=new Configuration();
     config.username="sakaitri@gmail.com";
@@ -43,24 +46,86 @@ export class DashboardComponent  {
     config.basePath='https://tsplanning.azurewebsites.net';
     //config.basePath='http://localhost:54248';
 
+    async function callTsPost(httpService: HttpClient ,token:string){
+      var configTsPost=new Configuration();
+      configTsPost.username="sakaitri@gmail.com";
+      configTsPost.password="pxi13351";
+      configTsPost.basePath='https://tsplanning.azurewebsites.net';
+      configTsPost.accessToken='Bearer '+token;
+      configTsPost.apiKeys={"Authorization":'Bearer '+token}
+      var spiceNetList
+      =String.raw`* D:\sakai\OneDrive\ドキュメント\LTspiceXVII\lib\sym\SpecialFunctions\CaseSurface.asc
+        XX1 test N001 heatresistancesurfacetooutsideair params: width=0.2 depth=0.3 WindDirection=x PositionSurface=top VelocityWind=0.01 Radiation=0.85 ThermalResistance=0 PositiveNode=test\n
+        XX2 N001 N002 heatresistancesurfacetoinside params: width=0.2 depth=0.3 thick=0.005 thermalConductivity=0.278\n
+        R1 N003 N002 0.1
+        R2 N003 N002 0.18
+        R3 0 N004 0.1
+        B1 test 0 basetemperature=40 PositiveNode=test
+        XX3 N003 N004 currentpole params: Value=2.3 PositiveNode=N003
+        
+        * block symbol definitions
+        .subckt heatresistancesurfacetooutsideair INPUT OUTPUT
+        R1 N001 INPUT {WindDirection}
+        R2 N002 N001 {PositionSurface}
+        R3 N003 N002 {Width}
+        R4 N004 N003 {Depth}
+        R5 N005 N004 {VelocityWind}
+        R6 N006 N005 {Radiation}
+        R7 N007 N006 {ThermalResistance}
+        R8 OUTPUT N007 {PositiveNode}
+        .ends heatresistancesurfacetooutsideair
+        
+        .subckt heatresistancesurfacetoinside VIN VOUT
+        R1 N001 VIN {thermalConductivity}
+        R2 N001 N002 {width}
+        R3 N002 N003 {depth}
+        R4 N003 VOUT {thick}
+        .param {width}=5 {thermalConductivity}=8 {depth}=9 {thick}=10
+        .ends heatresistancesurfacetoinside
+        
+        .subckt currentpole  
+        I1 INPUT N001 {Value}
+        R1 N001 OUTPUT {PositiveNode}
+        .ends currentpole
+        
+        .tran 0 1 0.5 0.01
+        .physicalTable DEN=0.0278
+        .backanno
+        .end
+        `
+      var bodyTsSpiceNetListPost
+      ={    
+        spiceNetList: spiceNetList,
+        temperature:[40]
+      };
+      var instance=await new TsService(httpService,null,configTsPost);
+      await instance.apiTsSpiceNetListPost(bodyTsSpiceNetListPost,'body',true).subscribe({
+        next(position) {
+          console.log('Current Position: ', position);
+        },
+        error(msg) {
+          console.log('Error Getting Location: ', msg);
+        }
+      });
+    }
+
     try{
-    var body={ password:accountData.password,userName:accountData.username};
+      var bodyAccountPost={ password:accountData.password,userName:accountData.username};
+      var instanceAccountService= new AccountService(this.http,null,config);
+      var localHttpInstance:HttpClient=this.httpInstance;
+      await instanceAccountService.apiAccountPost(bodyAccountPost,'body',true).subscribe({
+        next(position) {
+          localHttpInstance
+          this.token=position.token;
+          this.expiresIn=position.expiresIn;
+          this.userName=position.userName;
+          callTsPost(localHttpInstance,position.token);
+        },
+        error(msg) {
+          console.log('Error Getting Location: ', msg);
+        }
+      });
     
-    var data= new AccountService(this.http,null,config);
-    data.apiAccountPost(body,'body',true).subscribe({
-      next(position) {
-        this.token=position.token;
-        this.expiresIn=position.expiresIn;
-        this.userName=position.userName;
-        console.log('Current Position: ', position);
-      },
-      error(msg) {
-        console.log('Error Getting Location: ', msg);
-      }
-    });
-  }catch(err){
-    console.log(err);
-  }
 
     //http://localhost:54248/api/Values
     //https://tsplanning.azurewebsites.net/api/Values 
@@ -89,9 +154,11 @@ export class DashboardComponent  {
     });
     console.log(this.str);
     */
+    }
+    catch(err){
+      console.log(err);
+    }
   }
-
-
 }
 // POST メソッドの実装の例
 function postData(url = '', data = {
