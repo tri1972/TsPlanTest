@@ -355,3 +355,6 @@ local.settings.json
 .telemetry
 #Custom Ignore
 Account.json
+
+github.ppk
+github.pub

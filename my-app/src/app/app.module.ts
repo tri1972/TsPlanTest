@@ -14,6 +14,7 @@ import { ConfirmDialogComponent } from './tools/confirm-dialog/confirm-dialog.co
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
+import { MainComponent } from './main/main.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {HttpClientModule} from '@angular/common/http';
     DashboardComponent,
     UserListComponent,
     UserEditComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,
