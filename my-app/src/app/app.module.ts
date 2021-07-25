@@ -15,6 +15,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import { MainComponent } from './main/main.component';
+import { TsPlanInputComponent } from './ts-plan-input/ts-plan-input.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { MainComponent } from './main/main.component';
     UserListComponent,
     UserEditComponent,
     ConfirmDialogComponent,
-    MainComponent
+    MainComponent,
+    TsPlanInputComponent
   ],
   imports: [
     BrowserModule,
