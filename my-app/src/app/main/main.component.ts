@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent implements OnInit {
 
+  public parentData: string;
+  public childData: string;
+
   constructor() 
   { 
   }
@@ -14,5 +17,8 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onReceiveEventFromChild(eventData: string) {
+    this.childData = eventData;
+  }
 }
 

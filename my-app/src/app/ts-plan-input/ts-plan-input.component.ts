@@ -11,6 +11,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
 import { AccountService, Configuration, RegisterAccount, TsService } from '../tsplanApi';
 import accountData from '../../Account.json';
+import { Input } from '@angular/core';
 import { Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -19,10 +20,14 @@ import { Output, EventEmitter } from '@angular/core';
   styleUrls: ['./ts-plan-input.component.css']
 })
 export class TsPlanInputComponent implements OnInit {
+  
+  @Input()　dataFromParent: string;
   @Output() event = new EventEmitter<string>();
+  
   name = 'Tom';
   msg = '';
   public httpInstance: HttpClient;
+
   constructor(private http: HttpClient) {
     this.httpInstance = http;
   }
@@ -82,7 +87,6 @@ export class TsPlanInputComponent implements OnInit {
     catch (err) {
       console.log(err);
     }
-
     this.event.emit(
       '子コンポーネントから親コンポーネントへデータを渡す際はイベントを経由します。'
     );
