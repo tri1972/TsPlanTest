@@ -1,0 +1,11 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+.a {
+  background-color: rgb(255, 255, 255);
+  text-align:center;
+  padding: 1em;
+}
+#t_message{
+    background-color: rgb(158, 157, 157);
+    text-align:left;
+    padding: 1em;
+}
