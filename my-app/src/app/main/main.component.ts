@@ -13,7 +13,6 @@ export class MainComponent implements OnInit {
   public parentData: string;
   public childData: string;
 
-
   public httpInstance: HttpClient;
 
   constructor(private http: HttpClient) {
@@ -25,7 +24,7 @@ export class MainComponent implements OnInit {
 
   async onReceiveEventFromChild(eventData: string) {
     this.childData = eventData;
-
+    this.parentData="test";
     var spiceNetList
       = eventData;
     //swaggerApi使用
@@ -52,6 +51,7 @@ export class MainComponent implements OnInit {
       await instance.apiTsSpiceNetListPost(bodyTsSpiceNetListPost, 'body', true).subscribe({
         next(position) {
           console.log('Current Position: ', position);
+          this.parentData = '親コンポーネントから文字列を渡します';
         },
         error(msg) {
           console.log('Error Getting Location: ', msg);

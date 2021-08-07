@@ -21,9 +21,6 @@ export class TsPlanInputComponent implements OnInit {
   @Input()　dataFromParent: string;
   @Output() event = new EventEmitter<string>();
   
-  name = 'Tom';
-  msg = '';
-
   constructor() {
   }
 

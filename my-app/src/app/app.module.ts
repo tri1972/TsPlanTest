@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import { MainComponent } from './main/main.component';
 import { TsPlanInputComponent } from './ts-plan-input/ts-plan-input.component';
+import { TsPlanOutputComponent } from './ts-plan-output/ts-plan-output.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { TsPlanInputComponent } from './ts-plan-input/ts-plan-input.component';
     UserEditComponent,
     ConfirmDialogComponent,
     MainComponent,
-    TsPlanInputComponent
+    TsPlanInputComponent,
+    TsPlanOutputComponent
   ],
   imports: [
     BrowserModule,
