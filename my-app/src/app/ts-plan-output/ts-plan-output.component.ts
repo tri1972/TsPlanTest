@@ -12,6 +12,7 @@ import {OnChanges} from '@angular/core';
 export class TsPlanOutputComponent implements OnInit, OnChanges{
 
   @Input()　dataFromParent: string;
+  @Input()　dataFromParentContainer: outputContainer;
 
   public container:outputContainer;
   constructor() { }

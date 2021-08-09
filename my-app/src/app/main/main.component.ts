@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
 import { AccountService, Configuration, RegisterAccount, TsService } from '../tsplanApi';
 import accountData from '../../Account.json';
+import { outputContainer } from '../ts-plan-output/outputContainer';
+import { observable } from 'rxjs';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { exit } from 'process';
 
 @Component({
   selector: 'app-main',
@@ -10,7 +14,8 @@ import accountData from '../../Account.json';
 })
 export class MainComponent implements OnInit {
 
-  public parentData: string;
+  public parentData: boolean;
+  public containerParent:Array<outputContainer>
   public childData: string;
 
   public httpInstance: HttpClient;
@@ -22,9 +27,53 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+  public async callTsPost(httpService: HttpClient, token: string, spiceNetList: string):Promise< outputContainer> {
+    var outputData=new outputContainer();
+    var configTsPost = new Configuration();
+    configTsPost.username = "sakaitri@gmail.com";
+    configTsPost.password = "pxi13351";
+    configTsPost.basePath = 'https://tsplanning.azurewebsites.net';
+    //configTsPost.basePath='http://localhost:54248';
+    configTsPost.accessToken = 'Bearer ' + token;
+    configTsPost.apiKeys = { "Authorization": 'Bearer ' + token }
+    var bodyTsSpiceNetListPost
+      = {
+      spiceNetList: spiceNetList,
+      temperature: [40]
+    };
+    var instance
+      = await new TsService(httpService, null, configTsPost);
+
+    await instance.apiTsSpiceNetListPost(bodyTsSpiceNetListPost, 'body', true)
+      .subscribe(
+        (x)=>{
+          console.log('Current Position: ', x);
+          this.parentData=true;
+          x.temperature
+          //this.containerParent.push(x);
+        }
+        /*
+        {
+          
+          next(position) {
+            console.log('Current Position: ', position);
+            this.parentData = '親コンポーネントから文字列を渡します';
+          },
+          error(msg) {
+            console.log('Error Getting Location: ', msg);
+          }
+        }*/
+      );
+    return await new Promise((resolve)=>{
+      resolve(outputData)
+    })
+  }
+
   async onReceiveEventFromChild(eventData: string) {
     this.childData = eventData;
-    this.parentData="test";
+    var data=this.parentData;
+
     var spiceNetList
       = eventData;
     //swaggerApi使用
@@ -33,48 +82,34 @@ export class MainComponent implements OnInit {
     config.password = "pxi13351";
     config.basePath = 'https://tsplanning.azurewebsites.net';
     //config.basePath='http://localhost:54248';
-
-    async function callTsPost(httpService: HttpClient, token: string) {
-      var configTsPost = new Configuration();
-      configTsPost.username = "sakaitri@gmail.com";
-      configTsPost.password = "pxi13351";
-      configTsPost.basePath = 'https://tsplanning.azurewebsites.net';
-      //configTsPost.basePath='http://localhost:54248';
-      configTsPost.accessToken = 'Bearer ' + token;
-      configTsPost.apiKeys = { "Authorization": 'Bearer ' + token }
-      var bodyTsSpiceNetListPost
-        = {
-        spiceNetList: spiceNetList,
-        temperature: [40]
-      };
-      var instance = await new TsService(httpService, null, configTsPost);
-      await instance.apiTsSpiceNetListPost(bodyTsSpiceNetListPost, 'body', true).subscribe({
-        next(position) {
-          console.log('Current Position: ', position);
-          this.parentData = '親コンポーネントから文字列を渡します';
-        },
-        error(msg) {
-          console.log('Error Getting Location: ', msg);
-        }
-      });
-    }
-
     try {
       var bodyAccountPost = { password: accountData.password, userName: accountData.username };
       var instanceAccountService = new AccountService(this.http, null, config);
       var localHttpInstance: HttpClient = this.httpInstance;
-      await instanceAccountService.apiAccountPost(bodyAccountPost, 'body', true).subscribe({
+      await instanceAccountService.apiAccountPost(bodyAccountPost, 'body', true).subscribe(
+        (x)=>{
+          this.callTsPost(localHttpInstance, x.token, eventData)
+        }
+        /*
+        {
         next(position) {
           localHttpInstance
           this.token = position.token;
           this.expiresIn = position.expiresIn;
           this.userName = position.userName;
-          callTsPost(localHttpInstance, position.token);
+          console.log("test")
+          MainComponent.callTsPost(localHttpInstance, position.token, eventData)
+          .then
+          (
+            ()=>{ 
+              return this.token
+            });
         },
         error(msg) {
           console.log('Error Getting Location: ', msg);
         }
-      });
+      }*/
+      );
     }
     catch (err) {
       console.log(err);
