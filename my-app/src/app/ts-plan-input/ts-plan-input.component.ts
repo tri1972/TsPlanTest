@@ -25,12 +25,14 @@ export class TsPlanInputComponent implements OnInit {
   }
 
   async onclick(value: string) {
+
     this.event.emit(
       value
     );
   }
 
   ngOnInit(): void {
+    this.dataFromParent="";
   }
 
 }

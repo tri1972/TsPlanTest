@@ -25,6 +25,7 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.parentData=false;
   }
 
 
@@ -49,9 +50,14 @@ export class MainComponent implements OnInit {
       .subscribe(
         (x)=>{
           console.log('Current Position: ', x);
-          this.parentData=true;
-          x.temperature
-          //this.containerParent.push(x);
+          this.containerParent=new Array<outputContainer>();
+          for(var i=0;i<x.temperature.length;i++){
+            var tmpData=new outputContainer();
+            tmpData.Temperature=x.temperature[i].toString();
+            tmpData.nodeNumber=i;
+            this.containerParent.push(tmpData);
+          }
+          //this.parentData=true;
         }
         /*
         {
