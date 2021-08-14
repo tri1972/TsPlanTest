@@ -14,7 +14,8 @@ export class TsPlanOutputComponent implements OnInit, OnChanges{
   @Input()　dataFromParent: boolean;
   @Input()　dataFromParentContainer: outputContainer;
 
-  public container:outputContainer[];
+  containers:outputContainer[];
+  
   constructor() { }
 
   ngOnInit(): void {
@@ -26,13 +27,13 @@ export class TsPlanOutputComponent implements OnInit, OnChanges{
       if (changes.dataFromParentContainer.currentValue != null) {
         console.log(changes.dataFromParentContainer);
         
-        if(this.container==null){
-          this.container=new Array();
+        if(this.containers==null){
+          this.containers=new Array();
         }
         for (var tmpData = 0; tmpData < changes.dataFromParentContainer.currentValue.length; tmpData++) {
-          this.container[tmpData]=new outputContainer();
-          this.container[tmpData].nodeNumber=changes.dataFromParentContainer.currentValue[tmpData].nodeNumber;
-          this.container[tmpData].Temperature=changes.dataFromParentContainer.currentValue[tmpData].Temperature;
+          this.containers[tmpData]=new outputContainer();
+          this.containers[tmpData].nodeNumber=changes.dataFromParentContainer.currentValue[tmpData].nodeNumber;
+          this.containers[tmpData].Temperature=changes.dataFromParentContainer.currentValue[tmpData].Temperature;
         }
         /*
         changes.dataFromParentContainer.currentValue

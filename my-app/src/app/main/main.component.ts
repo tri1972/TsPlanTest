@@ -59,17 +59,6 @@ export class MainComponent implements OnInit {
           }
           //this.parentData=true;
         }
-        /*
-        {
-          
-          next(position) {
-            console.log('Current Position: ', position);
-            this.parentData = '親コンポーネントから文字列を渡します';
-          },
-          error(msg) {
-            console.log('Error Getting Location: ', msg);
-          }
-        }*/
       );
     return await new Promise((resolve)=>{
       resolve(outputData)

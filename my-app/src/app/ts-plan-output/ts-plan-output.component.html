@@ -1,13 +1,13 @@
-<h1>Users</h1>
+<h1>計算結果</h1>
 <table>
     <tr>
         <th>nodeNumber</th>
         <th>Temperature</th>
     </tr>
-    <tr *ngFor="let user">
-        <td>{{container.nodeNumber}}</td>
+    <tr *ngFor="let container of containers"><!--ここの構文はcontainers配列からconteiner要素をひとつづつ取り出し下のtd要素に代入するという意味になる -->
+        <td width=16>{{container.nodeNumber}}</td>
         <td>{{container.Temperature}}</td>
     </tr>
-    {{dataFromParent}}
-    {{dataFromParentContainer}}
 </table>
+{{dataFromParent}}
+{{dataFromParentContainer}}
