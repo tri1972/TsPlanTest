@@ -9,7 +9,7 @@ import { rejects } from 'assert';
 import { promise } from 'protractor';
 //import { gunzip } from 'zlib';
 import { AccountService, Configuration, RegisterAccount, TsService } from '../tsplanApi';
-import accountData from '../../Account.json';
+//import accountData from '../../Account.json';//アカウント取得用import
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -110,9 +110,10 @@ export class DashboardComponent  {
         }
       });
     }
-
     try{
-      var bodyAccountPost={ password:accountData.password,userName:accountData.username};
+      //以下のコメントアウトを外せば動作できる（ただしAccount.jsonが必要）
+      /*
+      //var bodyAccountPost={ password:accountData.password,userName:accountData.username};
       var instanceAccountService= new AccountService(this.http,null,config);
       var localHttpInstance:HttpClient=this.httpInstance;
       await instanceAccountService.apiAccountPost(bodyAccountPost,'body',true).subscribe({
@@ -127,7 +128,7 @@ export class DashboardComponent  {
           console.log('Error Getting Location: ', msg);
         }
       });
-    
+    */
 
     //http://localhost:54248/api/Values
     //https://tsplanning.azurewebsites.net/api/Values 

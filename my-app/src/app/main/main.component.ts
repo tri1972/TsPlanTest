@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
 import { AccountService, Configuration, RegisterAccount, TsService } from '../tsplanApi';
-import accountData from '../../Account.json';
+//import accountData from '../../Account.json';
 import { outputContainer } from '../ts-plan-output/outputContainer';
 import { observable } from 'rxjs';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
@@ -32,8 +32,8 @@ export class MainComponent implements OnInit {
   public async callTsPost(httpService: HttpClient, token: string, spiceNetList: string):Promise< outputContainer> {
     var outputData=new outputContainer();
     var configTsPost = new Configuration();
-    configTsPost.username = "sakaitri@gmail.com";
-    configTsPost.password = "pxi13351";
+    configTsPost.username = "test@gmail.com";
+    configTsPost.password = "grteio234897uhypqa";
     configTsPost.basePath = 'https://tsplanning.azurewebsites.net';
     //configTsPost.basePath='http://localhost:54248';
     configTsPost.accessToken = 'Bearer ' + token;
@@ -73,12 +73,12 @@ export class MainComponent implements OnInit {
       = eventData;
     //swaggerApi使用
     var config = new Configuration();
-    config.username = "sakaitri@gmail.com";
-    config.password = "pxi13351";
+    config.username = "test@gmail.com";
+    config.password = "grteio234897uhypqa";
     config.basePath = 'https://tsplanning.azurewebsites.net';
     //config.basePath='http://localhost:54248';
     try {
-      var bodyAccountPost = { password: accountData.password, userName: accountData.username };
+      var bodyAccountPost = { password: "grteio234897uhypqa", userName: "test@gmail.com"  };
       var instanceAccountService = new AccountService(this.http, null, config);
       var localHttpInstance: HttpClient = this.httpInstance;
       await instanceAccountService.apiAccountPost(bodyAccountPost, 'body', true).subscribe(
