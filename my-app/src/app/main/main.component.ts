@@ -14,6 +14,10 @@ import { exit } from 'process';
 })
 export class MainComponent implements OnInit {
 
+  /**
+   * コンポーネント間のデータ受け渡しについて
+   * 参考url：https://dev.classmethod.jp/articles/angular-input-output/
+   */
   public parentData: boolean;
   public containerParent:Array<outputContainer>
   public childData: string;

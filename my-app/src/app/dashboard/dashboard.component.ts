@@ -18,7 +18,7 @@ import { AccountService, Configuration, RegisterAccount, TsService } from '../ts
 
 export class DashboardComponent  {
   
-
+  imageSource='/assets/circuit_01.JPG';
   message: string;
   testdata:string="testtest";
   
