@@ -17,6 +17,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { MainComponent } from './main/main.component';
 import { TsPlanInputComponent } from './ts-plan-input/ts-plan-input.component';
 import { TsPlanOutputComponent } from './ts-plan-output/ts-plan-output.component';
+import { ExampleComponent } from './example/example.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { TsPlanOutputComponent } from './ts-plan-output/ts-plan-output.component
     ConfirmDialogComponent,
     MainComponent,
     TsPlanInputComponent,
-    TsPlanOutputComponent
+    TsPlanOutputComponent,
+    ExampleComponent
   ],
   imports: [
     BrowserModule,

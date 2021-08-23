@@ -25,6 +25,12 @@ https://qiita.com/amay077/items/62e1eb656fbd730b3dd1
 コンポーネントの追加
 $ ng generate component <コンポーネント名>
 
+コンポーネントをルーティング対象にする
+app-routing.module.tsに上記で追加したコンポーネントを追加する（やり方はこのファイルのほかのコンポーネントと大体おなじように）
+追加すれば、
+http:\\localhost\[追加コンポーネント名]
+でアクセスできるようになる
+
 chromeでlocalhostにアクセスできない場合
 参考url　https://qiita.com/hiraski/items/a399e5bb303124ff4cab
 

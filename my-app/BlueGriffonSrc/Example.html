@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title></title>
+    <style type="text/css">
+.example {
+  border-style: solid;
+  border-color: #969796;
+  background-color: #c4c5ee;
+}
+
+</style></head>
+  <body>
+    <h1>SpiceNetList例</h1>
+    <p>例1</p>
+    <p class="example">*
+      D:\sakai\OneDrive\ドキュメント\LTspiceXVII\lib\sym\SpecialFunctions\CaseSurface.asc<br>
+      XX1 test N001 heatresistancesurfacetooutsideair params: width=0.2
+      depth=0.3 WindDirection=x PositionSurface=top VelocityWind=0.01
+      Radiation=0.85 ThermalResistance=0 PositiveNode=test<br>
+      XX2 N001 N002 heatresistancesurfacetoinside params: width=0.2 depth=0.3
+      thick=0.005 thermalConductivity=0.278<br>
+      R1 N003 N002 0.1<br>
+      R2 N003 N002 0.18<br>
+      R3 0 N004 0.1<br>
+      B1 test 0 basetemperature=40 PositiveNode=test<br>
+      XX3 N003 N004 currentpole params: Value=2.3 PositiveNode=N003<br>
+      <br>
+      * block symbol definitions<br>
+      .subckt heatresistancesurfacetooutsideair INPUT OUTPUT<br>
+      R1 N001 INPUT {WindDirection}<br>
+      R2 N002 N001 {PositionSurface}<br>
+      R3 N003 N002 {Width}<br>
+      R4 N004 N003 {Depth}<br>
+      R5 N005 N004 {VelocityWind}<br>
+      R6 N006 N005 {Radiation}<br>
+      R7 N007 N006 {ThermalResistance}<br>
+      R8 OUTPUT N007 {PositiveNode}<br>
+      .ends heatresistancesurfacetooutsideair<br>
+      <br>
+      .subckt heatresistancesurfacetoinside VIN VOUT<br>
+      R1 N001 VIN {thermalConductivity}<br>
+      R2 N001 N002 {width}<br>
+      R3 N002 N003 {depth}<br>
+      R4 N003 VOUT {thick}<br>
+      .param {width}=5 {thermalConductivity}=8 {depth}=9 {thick}=10<br>
+      .ends heatresistancesurfacetoinside<br>
+      <br>
+      .subckt currentpole&nbsp; <br>
+      I1 INPUT N001 {Value}<br>
+      R1 N001 OUTPUT {PositiveNode}<br>
+      .ends currentpole<br>
+      <br>
+      .tran 0 1 0.5 0.01<br>
+      .physicalTable DEN=0.0278<br>
+      .backanno<br>
+      .end</p>
+  </body>
+</html>
