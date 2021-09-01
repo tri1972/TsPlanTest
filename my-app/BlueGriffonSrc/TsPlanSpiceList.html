@@ -4,7 +4,12 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Allerta">
     <title>TsPlanSpiceList</title>
-  </head>
+    <style type="text/css">
+#caution {
+  color: red;
+}
+
+</style></head>
   <body>
     <h1>TsPlanSpiceList</h1>
     <p>このHPでは<b>LTSpice</b>などを使い、熱回路を作成します。</p>
@@ -38,213 +43,206 @@
     <div style="text-align: left;">３．計算を行う</div>
     <div style="text-align: left;"><br>
     </div>
-    <div style="text-align: left;"><span><var><b>部品について</b></var></span> </div>
-    <div style="text-align: left;">一部熱部品は<a href="assets/SpecialFunctions.zip"
+    <div style="text-align: left;"><span><var><b>回路の作成</b></var></span>
+      <div style="text-align: left;">LTSpiceでの熱回路の作成は熱回路用の部品のみを用いて構成します。</div>
+      <div style="text-align: left;">作成に関して操作方法についてはLTSpiceが持つ機能を使用しますが熱部品により一部留
+        意すべきデータの入力があります。</div>
+      <div style="text-align: left;">
+        <ul>
+          <li> 熱部品のパラメータ入力方法</li>
+        </ul>
+        <p style="margin-left: 40px;">熱部品のパラメータについてはそれぞれ入力方法が異なります</p>
+        <div style="margin-left: 80px;"> </div>
+        <p style="margin-left: 80px;"><b>熱抵抗</b></p>
+        <div style="margin-left: 80px;"> <img src="assets/explainResistance.JPG"
 
-        title="thermalPart.zip">リンク</a>よりダウンロードして使用します</div>
-    <div style="text-align: left;">使える部品はこれといくつかの部品となります。</div>
-    <div style="text-align: left;">また、一部部品には極性があり、Positiveな端子を設定する場合、接続されているノード名
-      を設定する必要があります</div>
-    <div style="text-align: left;">
-      <ol>
-        <li>R:熱抵抗</li>
-        <li>Bv：ビヘイビア電源</li>
-        <li>X：発熱源</li>
-        <li>X：筐体壁面外面→外気熱抵抗部品</li>
-        <li>X：板状熱伝導部品</li>
-        <li>GND</li>
-      </ol>
-      <a id="Resistance">１．熱抵抗</a></div>
-    <div style="text-align: left;"><br>
-    </div>
-    <img src="assets/partResistance.JPG" alt="熱抵抗" title="熱抵抗" style="width: 81px; height: 86px;">
-    <div style="text-align: left;">定数としての熱抵抗をもつ部品</div>
-    <div style="text-align: left;"><br>
-    </div>
-    <div style="text-align: left;">入力</div>
-    <div style="text-align: left;">
-      <table style="width: 750px;" border="1">
-        <tbody>
-          <tr>
-            <td style="width: 158.967px;">パラメータ</td>
-            <td style="width: 364.783px;">入力値</td>
-            <td style="width: 244.8px;">単位</td>
-            <td style="width: 280.783px; height: 24.6667px;">備考</td>
-          </tr>
-          <tr>
-            <td>Resistance</td>
-            <td>熱抵抗</td>
-            <td>[K/W]</td>
-            <td><br>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <br>
-    </div>
-    <div style="text-align: left;">２．ビヘイビア電源</div>
-    <img src="assets/partBehaviarPower.JPG" alt="BehaviarPower" title="BehaviarPower"
+            alt="explainResistance" title="explainResistance" style="width: 270px; height: 197px;">
+        </div>
+        <p style="margin-left: 80px;">部品を右クリックすると開くダイアログのResistanceの項目に熱抵抗[K/W]を
+          入力する</p>
+        <div style="margin-left: 80px;"> </div>
+        <p style="margin-left: 80px;"><br>
+        </p>
+        <div style="margin-left: 80px;"> </div>
+        <p style="margin-left: 80px;"><b>ビヘイビア電源</b></p>
+        <div style="margin-left: 80px;"> <img src="assets/explainBehaibire.JPG"
 
-      style="width: 345px; height: 80px;">
-    <div style="text-align: left;">温度差を設定します。通常は外気温度V<sub>∞</sub>を設定することとなります。</div>
-    <div style="text-align: left;">また、Positive端子側が高温側、Negative端子側が低温側となります。</div>
-    <div style="text-align: left;"><br>
-    </div>
-    <div style="text-align: left;">入力</div>
-    <div style="text-align: left;">
-      <table style="width: 750px; height: 118px;" border="1">
-        <tbody>
-          <tr>
-            <td style="width: 137.45px;">パラメータ</td>
-            <td>入力値</td>
-            <td>単位</td>
-            <td style="width: 183.767px;">備考</td>
-          </tr>
-          <tr>
-            <td>basetemperature</td>
-            <td>基準温度差</td>
-            <td>[K]</td>
-            <td><br>
-            </td>
-          </tr>
-          <tr>
-            <td>PositiveNode</td>
-            <td style="width: 314.333px;">Positive端子側に設定されたNode名</td>
-            <td style="width: 89.783px;"><br>
-            </td>
-            <td><br>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <br>
-    </div>
-    <div style="text-align: left;">３．発熱源</div>
-    <img src="assets/partCurrentPole.JPG" alt="CurrentPole" title="CurrentPole"
+            alt="explainBehaibire" title="explainBehaibire"> </div>
+        <p style="margin-left: 80px;">部品を右クリックすると開くダイアログのValueの項目に値を入力する。</p>
+        <div style="margin-left: 80px;"> </div>
+        <p style="margin-left: 80px;">値名については<a pagescroll="" href="#behaibire">ビ
+            ヘイビア電源部 品の項目</a>を 参照する</p>
+        <div style="margin-left: 80px;"> </div>
+        <p style="margin-left: 80px;"><br>
+        </p>
+        <div style="margin-left: 80px;"> </div>
+        <p style="margin-left: 80px;"><b>筐体壁面外面→外気熱抵抗部品、板状熱伝導部品、発熱源</b></p>
+        <div style="margin-left: 80px;"> <img src="assets/explainOtherParts.JPG"
 
-      style="width: 95px; height: 94px;">
-    <div style="text-align: left;">発熱量Qを設定します。発熱源はNodeであるべきですが、NetListでは二端子部品として
-      設定せざるを得ないため、</div>
-    <div style="text-align: left;">極性を用いて発熱源となる端子を指定します。</div>
-    <div style="text-align: left;"><br>
-    </div>
-    <div style="text-align: left;">入力</div>
-    <div style="text-align: left;">
-      <table border="1">
-        <tbody>
-          <tr>
-            <td style="width: 137.45px;">パラメータ</td>
-            <td>入力値</td>
-            <td>単位</td>
-            <td style="width: 183.767px;">備考</td>
-          </tr>
-          <tr>
-            <td>Value</td>
-            <td style="width: 307.333px;">発熱量</td>
-            <td style="width: 96.783px;">[w] </td>
-            <td><br>
-            </td>
-          </tr>
-          <tr>
-            <td>PositiveNode</td>
-            <td>Positive端子を発熱源とし、この端子側とするNode名を指 定します</td>
-            <td><br>
-            </td>
-            <td><br>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div style="text-align: left;"><br>
-    </div>
-    <div style="text-align: left;"><br>
-    </div>
-    <div style="text-align: left;">４．筐体壁面外面→外気熱抵抗</div>
-    <img src="assets/partSurfaceToOutside.JPG" alt="SurfaceToOutside" title="SurfaceToOutside"
+            alt="explainOtherParts" title="explainOtherParts"> </div>
+        <p style="margin-left: 80px;">その他の部品については部品を右クリックすると開くダイアログのPARAMSの項目に上記
+          のように代入する<br>
+        </p>
+        <ul>
+          <li>タグと部品の極性について</li>
+        </ul>
+      </div>
+      <div style="text-align: left; margin-left: 80px;">筐体壁面外面→外気熱抵抗部品、板状熱伝導部品、発
+        熱源、ビヘイビア電源等のこれらの部品については極性を持ちます。</div>
+      <div style="text-align: left; margin-left: 80px;">その極性の指定方法については以下のように行いま
+        す。</div>
+      <div style="margin-left: 80px;"><img src="assets/explainPole.JPG" alt="explainPole"
 
-      style="width: 219px; height: 84px;">
-    <div style="text-align: left;">筐体壁面から外気間の熱抵抗を設定するパラメータにより計算します。</div>
-    <div style="text-align: left;">計算は筐体壁面から放射される放射熱コンダクタンス、</div>
-    <div style="text-align: left;">筐体壁面から外気へ、風力、風向、筐体壁面位置の対流熱コンダクタンスを計算します。</div>
-    <div style="text-align: left;"><br>
-    </div>
-    <div style="text-align: left;">入力</div>
-    <div style="text-align: left;">
-      <table border="1">
-        <tbody>
-          <tr>
-            <td style="width: 137.45px;">パラメータ</td>
-            <td>入力値</td>
-            <td>単位</td>
-            <td style="width: 183.767px;">備考</td>
-          </tr>
-          <tr>
-            <td>width</td>
-            <td style="width: 307.333px;">壁面幅寸法</td>
-            <td style="width: 96.783px;">[m]</td>
-            <td><br>
-            </td>
-          </tr>
-          <tr>
-            <td>depth</td>
-            <td>壁面奥行 </td>
-            <td>[m] </td>
-            <td><br>
-            </td>
-          </tr>
-          <tr>
-            <td style="height: 24.6667px;">WindDirection</td>
-            <td>風向</td>
-            <td style="text-align: center;">ー</td>
-            <td>x、ｙ、zのいずれかの文字入力を行います</td>
-          </tr>
-          <tr>
-            <td>PositionSurface</td>
-            <td>筐体（六面体）のもつ壁面のうちどの壁面であるかを入力しま す</td>
-            <td style="text-align: center;">ー</td>
-            <td>top,bottom,front,back,left,rightのいずれかを入力します</td>
-          </tr>
-          <tr>
-            <td>VelocityWind</td>
-            <td>風速</td>
-            <td>[m/s]</td>
-            <td>０を代入すれば自然空冷として計算しま す</td>
-          </tr>
-          <tr>
-            <td>Radiation</td>
-            <td>筐体壁面の放射率</td>
-            <td><br>
-            </td>
-            <td><br>
-            </td>
-          </tr>
-          <tr>
-            <td>ThermalResistance</td>
-            <td>定数熱抵抗</td>
-            <td><br>
-            </td>
-            <td>入力した場合は計算はおこなわれ ずこの値で置き換わります。
-              <div style="text-align: left;">必要ない場合は０を入力します。</div>
-            </td>
-          </tr>
-          <tr>
-            <td>PositiveNode</td>
-            <td>Positive端子側を外気側とします</td>
-            <td><br>
-            </td>
-            <td>この端子側とするNode 名を指定します。</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div style="text-align: left;"><br>
-    </div>
-    <div style="text-align: left;">５．板状熱伝導部品</div>
-    <img src="assets/partSurfaceInside.JPG" alt="SurfaceInside" title="SurfaceInside"
+          title="explainPole" style="width: 707px; height: 256px;"></div>
+      <div style="text-align: left; margin-left: 80px;"><br>
+      </div>
+      <div style="margin-left: 80px;"> </div>
+      <div style="text-align: left; margin-left: 80px;">Menuの中より"Label
+        Net"を実行し、部品が接続されているNetに名前を付けます。</div>
+      <div style="text-align: left; margin-left: 80px;">その名前を各部品のPositiveNodeパラ
+        メータに入力すれば、名前のNet側が部品のPositive端子となります。<br>
+      </div>
+      <div style="margin-left: 80px;"> </div>
+      <div style="text-align: left; margin-left: 80px;"><span id="caution">※
+          部品の隣接するNetでなければエラーとなるのに注意</span></div>
+      <div style="text-align: left;"><br>
+      </div>
+      <div style="text-align: left;"><span><var><b>部品について</b></var></span> </div>
+      <div style="text-align: left;">一部熱部品は<a href="assets/SpecialFunctions.zip"
 
-      style="width: 279px; height: 90px;">
-    <div style="text-align: left;">板状部品に対して、表面から別表面までの厚さ方向の熱伝導による、熱抵抗を計算します。
+          title="thermalPart.zip">リ ンク</a>よりダウンロードして使用します</div>
+      <div style="text-align: left;">使える部品はこれといくつかの部品となります。</div>
+      <div style="text-align: left;">また、一部部品には極性があり、Positiveな端子を設定する場合、接続されているノー
+        ド名 を設定する必要があります</div>
+      <div style="text-align: left;">
+        <ol>
+          <li>R:熱抵抗</li>
+          <li>Bv：ビヘイビア電源</li>
+          <li>X：発熱源</li>
+          <li>X：筐体壁面外面→外気熱抵抗部品</li>
+          <li>X：板状熱伝導部品</li>
+          <li>GND</li>
+        </ol>
+      </div>
+      <div style="text-align: left;">
+        <ol>
+        </ol>
+        <a id="Resistance">１．熱抵抗</a></div>
+      <div style="text-align: left;"><br>
+      </div>
+      <img src="assets/partResistance.JPG" alt="熱抵抗" title="熱抵抗" style="width: 81px; height: 86px;">
+      <div style="text-align: left;">定数としての熱抵抗をもつ部品</div>
+      <div style="text-align: left;"><br>
+      </div>
+      <div style="text-align: left;">入力</div>
+      <div style="text-align: left;">
+        <table style="width: 750px;" border="1">
+          <tbody>
+            <tr>
+              <td style="width: 158.967px;">パラメータ</td>
+              <td style="width: 364.783px;">入力値</td>
+              <td style="width: 244.8px;">単位</td>
+              <td style="width: 280.783px; height: 24.6667px;">備考</td>
+            </tr>
+            <tr>
+              <td>Resistance</td>
+              <td>熱抵抗</td>
+              <td>[K/W]</td>
+              <td><br>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+      </div>
+      <div style="text-align: left;">２．<a id="behaibire">ビヘイビア電源</a></div>
+      <img src="assets/partBehaviarPower.JPG" alt="BehaviarPower" title="BehaviarPower"
+
+        style="width: 345px; height: 80px;">
+      <div style="text-align: left;">温度差を設定します。通常は外気温度V<sub>∞</sub>を設定することとなります。</div>
+      <div style="text-align: left;">また、Positive端子側が高温側、Negative端子側が低温側となります。</div>
+      <div style="text-align: left;"><br>
+      </div>
+      <div style="text-align: left;">入力</div>
+      <div style="text-align: left;">
+        <table style="width: 750px; height: 118px;" border="1">
+          <tbody>
+            <tr>
+              <td style="width: 137.45px;">パラメータ</td>
+              <td>入力値</td>
+              <td>単位</td>
+              <td style="width: 183.767px;">備考</td>
+            </tr>
+            <tr>
+              <td>basetemperature</td>
+              <td>基準温度差</td>
+              <td>[K]</td>
+              <td><br>
+              </td>
+            </tr>
+            <tr>
+              <td>PositiveNode</td>
+              <td style="width: 314.333px;">Positive端子側に設定されたNode名</td>
+              <td style="width: 89.783px;"><br>
+              </td>
+              <td><br>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+      </div>
+      <div style="text-align: left;">３．発熱源</div>
+      <img src="assets/partCurrentPole.JPG" alt="CurrentPole" title="CurrentPole"
+
+        style="width: 95px; height: 94px;">
+      <div style="text-align: left;">発熱量Qを設定します。発熱源はNodeであるべきですが、NetListでは二端子部品と
+        して 設定せざるを得ないため、</div>
+      <div style="text-align: left;">極性を用いて発熱源となる端子を指定します。</div>
+      <div style="text-align: left;"><br>
+      </div>
+      <div style="text-align: left;">入力</div>
+      <div style="text-align: left;">
+        <table border="1">
+          <tbody>
+            <tr>
+              <td style="width: 137.45px;">パラメータ</td>
+              <td>入力値</td>
+              <td>単位</td>
+              <td style="width: 183.767px;">備考</td>
+            </tr>
+            <tr>
+              <td>Value</td>
+              <td style="width: 307.333px;">発熱量</td>
+              <td style="width: 96.783px;">[w] </td>
+              <td><br>
+              </td>
+            </tr>
+            <tr>
+              <td>PositiveNode</td>
+              <td>Positive端子を発熱源とし、この端子側とするNode名を指 定します</td>
+              <td><br>
+              </td>
+              <td><br>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="text-align: left;"><br>
+      </div>
+      <div style="text-align: left;"><br>
+      </div>
+      <div style="text-align: left;">４．筐体壁面外面→外気熱抵抗</div>
+      <img src="assets/partSurfaceToOutside.JPG" alt="SurfaceToOutside" title="SurfaceToOutside"
+
+        style="width: 219px; height: 84px;">
+      <div style="text-align: left;">筐体壁面から外気間の熱抵抗を設定するパラメータにより計算します。</div>
+      <div style="text-align: left;">計算は筐体壁面から放射される放射熱コンダクタンス、</div>
+      <div style="text-align: left;">筐体壁面から外気へ、風力、風向、筐体壁面位置の対流熱コンダクタンスを計算します。</div>
+      <div style="text-align: left;"><br>
+      </div>
+      <div style="text-align: left;">入力</div>
       <div style="text-align: left;">
         <table border="1">
           <tbody>
@@ -256,39 +254,115 @@
             </tr>
             <tr>
               <td>width</td>
-              <td style="width: 301.333px;">幅</td>
-              <td style="width: 102.783px;">[m] </td>
+              <td style="width: 307.333px;">壁面幅寸法</td>
+              <td style="width: 96.783px;">[m]</td>
               <td><br>
               </td>
             </tr>
             <tr>
               <td>depth</td>
-              <td>奥行</td>
+              <td>壁面奥行 </td>
               <td>[m] </td>
               <td><br>
               </td>
             </tr>
             <tr>
-              <td>thick</td>
-              <td>厚さ</td>
-              <td>[m]</td>
+              <td style="height: 24.6667px;">WindDirection</td>
+              <td>風向</td>
+              <td style="text-align: center;">ー</td>
+              <td>x、ｙ、zのいずれかの文字入力を行います</td>
+            </tr>
+            <tr>
+              <td>PositionSurface</td>
+              <td>筐体（六面体）のもつ壁面のうちどの壁面であるかを入力しま す</td>
+              <td style="text-align: center;">ー</td>
+              <td>top,bottom,front,back,left,rightのいずれかを入力します</td>
+            </tr>
+            <tr>
+              <td>VelocityWind</td>
+              <td>風速</td>
+              <td>[m/s]</td>
+              <td>０を代入すれば自然空冷として計算しま す</td>
+            </tr>
+            <tr>
+              <td>Radiation</td>
+              <td>筐体壁面の放射率</td>
+              <td><br>
+              </td>
               <td><br>
               </td>
             </tr>
             <tr>
-              <td>thermalConductivity</td>
-              <td>熱伝導率</td>
-              <td>[w/mK]</td>
+              <td>ThermalResistance</td>
+              <td>定数熱抵抗</td>
               <td><br>
               </td>
+              <td>入力した場合は計算はおこなわれ ずこの値で置き換わります。
+                <div style="text-align: left;">必要ない場合は０を入力します。</div>
+              </td>
+            </tr>
+            <tr>
+              <td>PositiveNode</td>
+              <td>Positive端子側を外気側とします</td>
+              <td><br>
+              </td>
+              <td>この端子側とするNode 名を指定します。</td>
             </tr>
           </tbody>
         </table>
       </div>
-    </div>
-    <div style="text-align: left;"><br>
-    </div>
-    <div style="text-align: left;"><br>
+      <div style="text-align: left;"><br>
+      </div>
+      <div style="text-align: left;">５．板状熱伝導部品</div>
+      <img src="assets/partSurfaceInside.JPG" alt="SurfaceInside" title="SurfaceInside"
+
+        style="width: 279px; height: 90px;">
+      <div style="text-align: left;">板状部品に対して、表面から別表面までの厚さ方向の熱伝導による、熱抵抗を計算します。
+        <div style="text-align: left;">
+          <table border="1">
+            <tbody>
+              <tr>
+                <td style="width: 137.45px;">パラメータ</td>
+                <td>入力値</td>
+                <td>単位</td>
+                <td style="width: 183.767px;">備考</td>
+              </tr>
+              <tr>
+                <td>width</td>
+                <td style="width: 301.333px;">幅</td>
+                <td style="width: 102.783px;">[m] </td>
+                <td><br>
+                </td>
+              </tr>
+              <tr>
+                <td>depth</td>
+                <td>奥行</td>
+                <td>[m] </td>
+                <td><br>
+                </td>
+              </tr>
+              <tr>
+                <td>thick</td>
+                <td>厚さ</td>
+                <td>[m]</td>
+                <td><br>
+                </td>
+              </tr>
+              <tr>
+                <td>thermalConductivity</td>
+                <td>熱伝導率</td>
+                <td>[w/mK]</td>
+                <td><br>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div style="text-align: left;"><br>
+      </div>
+      <div style="text-align: left;"><br>
+      </div>
     </div>
     
   </body>

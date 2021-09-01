@@ -18,6 +18,8 @@ import { MainComponent } from './main/main.component';
 import { TsPlanInputComponent } from './ts-plan-input/ts-plan-input.component';
 import { TsPlanOutputComponent } from './ts-plan-output/ts-plan-output.component';
 import { ExampleComponent } from './example/example.component';
+import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
+import { NgxPageScrollModule } from 'ngx-page-scroll';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,10 @@ import { ExampleComponent } from './example/example.component';
     // Include it under 'imports' in your application module
     // after BrowserModule.
     HttpClientModule,
+    //ページ内アンカータグへのリンク実行のためのモジュール追加
+    //<参考>https://qiita.com/atomyah/items/2219bf9e245261a26287
+    NgxPageScrollCoreModule,
+    NgxPageScrollModule,
   ],
   providers: [
     UserService

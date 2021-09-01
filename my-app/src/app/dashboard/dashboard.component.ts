@@ -1,15 +1,11 @@
 //"use strict";
-//import { HttpClient, HttpHandler, HttpHeaders, JsonpClientBackend } from '@angular/common/http';
 import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
-import { ValueConverter } from '@angular/compiler/src/render3/view/template';
-import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
-import { ComponentFixtureNoNgZone, waitForAsync } from '@angular/core/testing';
-import { rejects } from 'assert';
-import { promise } from 'protractor';
-//import { gunzip } from 'zlib';
+import { DOCUMENT } from '@angular/common';
 import { AccountService, Configuration, RegisterAccount, TsService } from '../tsplanApi';
-//import accountData from '../../Account.json';//アカウント取得用import
+
+import { PageScrollService } from 'ngx-page-scroll-core';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -32,6 +28,10 @@ export class DashboardComponent  {
     this.httpInstance=http;
     this.message = 'This is a sample of Angular application.';
   }
+
+  ngOnInit(): void {
+   }
+
   // 変数resultを初期化
   result = '現在時刻は不明です。';
   
