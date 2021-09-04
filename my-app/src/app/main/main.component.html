@@ -1,6 +1,8 @@
 <h1><b>計算画面</b></h1>
 <h1></h1>
+<div id="variable">
 <TsPlanInput [dataFromParent]='parentData' (event)="onReceiveEventFromChild($event)"></TsPlanInput>
 <TsPlanOutput [dataFromParent]='parentData' [dataFromParentContainer]='containerParent'></TsPlanOutput>
+</div>
 
  
