@@ -1,16 +1,21 @@
 <div>
-    <p>
+    <h3>
         <label for="spiceNetList">spiceNetListの入力：</label>
-    </p>
-    <p>
-        <textarea id="t_message" name="message" placeholder="こちらにお問い合わせ内容を入力してください。" rows="32" cols="128" #data >
-        </textarea>
-        <!-->onclickイベントを作成<-->
-        <button mat-button color="accent" value="送信" (click)="onclick(data.value)" >Accent</button>
-        <!--
-        <input type="button" value="送信" (click)="onclick(data.value)" />
-        -->
-    </p>
+    </h3>
+    <div>
+        <h3>
+            TextBoxにNetListを貼り付けた上で、計算実行ボタンを押してください
+        </h3>
+        <div>
+            <!--textareaを使う場合下記のように途中で改行しないと、初期値として空白が入りPlaceholderが有効とならない <参考> https://arumogina-tech.hatenadiary.jp/entry/2018/06/04/054539/-->
+            <textarea id="t_message" name="message" placeholder="NetListを入力してください" rows="32" cols="128" #data></textarea>
+            <!--onclickイベントを作成/-->
+            <!--
+            <input type="button" value="送信" (click)="onclick(data.value)" />
+            -->
+        </div>
+        <button mat-raised-button color="primary" value="送信" (click)="onclick(data.value)">計算実行</button>
+    </div>
 </div>
 <p>
     {{dataFromParent}}
