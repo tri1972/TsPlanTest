@@ -1,12 +1,12 @@
 <h1>計算結果</h1>
-<table>
+<table id="temperaturetable">
     <tr>
         <th>nodeNumber</th>
         <th>Temperature</th>
     </tr>
     <tr *ngFor="let container of containers"><!--ここの構文はcontainers配列からconteiner要素をひとつづつ取り出し下のtd要素に代入するという意味になる -->
-        <td width=16>{{container.nodeNumber}}</td>
-        <td>{{container.Temperature}}</td>
+        <td width=16 style="color: black;">{{container.nodeNumber}}</td>
+        <td style="color: black;">{{container.Temperature}}</td>
     </tr>
 </table>
 {{dataFromParent}}

@@ -18,7 +18,7 @@ const routes: Routes =
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes,{ useHash: true })],
+  imports: [RouterModule.forRoot(routes,{ useHash: true })],//Webリロードについての対応　<参考>　https://christina04.hatenablog.com/entry/2017/02/10/004253
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

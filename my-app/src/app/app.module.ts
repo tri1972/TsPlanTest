@@ -20,6 +20,8 @@ import { TsPlanOutputComponent } from './ts-plan-output/ts-plan-output.component
 import { ExampleComponent } from './example/example.component';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,7 @@ import { NgxPageScrollModule } from 'ngx-page-scroll';
     MainComponent,
     TsPlanInputComponent,
     TsPlanOutputComponent,
-    ExampleComponent
+    ExampleComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +50,8 @@ import { NgxPageScrollModule } from 'ngx-page-scroll';
     //<参考>https://qiita.com/atomyah/items/2219bf9e245261a26287
     NgxPageScrollCoreModule,
     NgxPageScrollModule,
+    MatSliderModule,
+    MatButtonModule
   ],
   providers: [
     UserService

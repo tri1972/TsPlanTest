@@ -6,7 +6,10 @@
         <textarea id="t_message" name="message" placeholder="こちらにお問い合わせ内容を入力してください。" rows="32" cols="128" #data >
         </textarea>
         <!-->onclickイベントを作成<-->
+        <button mat-button color="accent" value="送信" (click)="onclick(data.value)" >Accent</button>
+        <!--
         <input type="button" value="送信" (click)="onclick(data.value)" />
+        -->
     </p>
 </div>
 <p>
